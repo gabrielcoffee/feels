@@ -34,6 +34,18 @@ def main():
     delete_p = subparsers.add_parser("delete")
     delete_p.add_argument("id", type=int)
 
+    subparsers.add_parser("config")
+
+    project_p = subparsers.add_parser("project")
+    project_sub = project_p.add_subparsers(dest="action")
+    add_proj = project_sub.add_parser("add")
+    add_proj.add_argument("name")
+    list_proj = project_sub.add_parser("list")
+    del_proj = project_sub.add_parser("delete")
+    del_proj.add_argument("name")
+
+    subparsers.add_parser("help")
+
     args = parser.parse_args()
 
     if args.command == "add":
@@ -48,5 +60,14 @@ def main():
     elif args.command == "delete":
         from .delete import run_delete
         run_delete(config, args.id)
+    elif args.command == "config":
+        from .config_cmd import run_config
+        run_config(config)
+    elif args.command == "project":
+        from .project_cmd import run_project
+        run_project(config, args)
+    elif args.command == "help":
+        from .help_cmd import run_help
+        run_help()
     else:
         show_home(config, get_stats(config))

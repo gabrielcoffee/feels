@@ -4,8 +4,6 @@ from rich.table import Table
 from rich.text import Text
 from rich import box
 
-from .utils import score_color
-
 console = Console()
 
 
@@ -13,8 +11,6 @@ def show_home(config: dict, stats: dict) -> None:
     header = Text.assemble(
         ("Welcome to ", "bold"),
         ("feels", "bold bright_cyan"),
-        "\n",
-        ("A mood tracker for developers. Runs entirely in your terminal.", "dim"),
     )
 
     # Stats line
@@ -27,23 +23,6 @@ def show_home(config: dict, stats: dict) -> None:
         ("  ·  ", "dim"),
         (streak_label, "dim"),
     )
-
-    # Week averages or nudge for new users
-    week_avg = stats["week_avg"]
-    if week_avg:
-        avgs = Text.assemble(("avg this week:  ", "dim"))
-        avgs.append(f"{week_avg['mood']:.1f}/5", style=f"bold {score_color(round(week_avg['mood']))}")
-        avgs.append(" mood", style="dim")
-        if "focus" in week_avg:
-            avgs.append("  ")
-            avgs.append(f"{week_avg['focus']:.1f}/5", style=f"bold {score_color(round(week_avg['focus']))}")
-            avgs.append(" focus", style="dim")
-        if "stress" in week_avg:
-            avgs.append("  ")
-            avgs.append(f"{week_avg['stress']:.1f}/5", style=f"bold {score_color(round(week_avg['stress']))}")
-            avgs.append(" stress", style="dim")
-    else:
-        avgs = Text("no logs in the last 7 days", style="dim")
 
     # Nudge
     if total == 0:
@@ -68,8 +47,6 @@ def show_home(config: dict, stats: dict) -> None:
         header,
         Text(""),
         summary,
-        Text(""),
-        avgs,
     ]
     if nudge:
         rows += [Text(""), nudge]

@@ -28,18 +28,17 @@ def format_entry(entry: dict, config: dict) -> Text:
     t = Text()
 
     # Header line: #id  ·  time  ·  project
-    t.append(f"#{entry['id']}", style="dim")
+    t.append(f"#{entry['id']}", style="bold dim")
     t.append("  ·  ", style="dim")
     t.append(time_str, style="bold")
     if entry.get("project"):
         t.append("  ·  ", style="dim")
-        t.append(entry["project"], style="dim")
+        t.append(entry["project"], style="bright_cyan")
     t.append("\n")
 
     # Scores line
     mood_color = score_color(entry["mood"])
     t.append(f"{entry['mood']}/5", style=f"bold {mood_color}")
-    t.append(" mood", style="dim")
 
     if config.get("focus") and entry.get("focus") is not None:
         t.append("  ")

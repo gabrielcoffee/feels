@@ -1,5 +1,52 @@
 # Changes
 
+## Final commands — config, project, help
+
+### What was built
+- `src/feels/config_cmd.py` — `feels config` command to revisit and update settings
+- `src/feels/project_cmd.py` — `feels project add/list/delete` to manage projects
+- `src/feels/help_cmd.py` — `feels help` to show all available commands
+- `src/feels/cli.py` — updated argparse routing to handle all three commands
+
+### How it works
+
+**`feels config`**
+- Shows current settings (mood, focus, stress, projects)
+- Asks user to toggle each option
+- Saves updated config to `~/.feels/config.json`
+- Auto-initializes `active_projects` list if projects are enabled
+
+**`feels project`**
+- `add <name>` — add to the active projects list
+- `list` — show all active projects
+- `delete <name>` — remove from the active projects list
+- Only works if projects are enabled in config
+- Logs keep their project names even if projects are deleted (no data loss)
+
+**`feels help`**
+- Displays a table of all commands with one-line descriptions
+- Includes flags and examples for complex commands like `feels logs`
+
+### Why these choices
+
+**`active_projects` in config** — stores project labels separately from logs. Simple to manage, no complex migrations needed. Deleting a project doesn't lose log data (spec explicitly left this "TBD").
+
+**Command routing via argparse subparsers** — `feels project add <name>` naturally maps to a subparser with positional args. Clean and extensible for future commands.
+
+**Help as a table** — consistent style with other parts of the app, easy to scan, mirrors the commands list on the home screen.
+
+### Progress
+
+- [x] Step 1 — Project skeleton
+- [x] Step 2 — Onboarding flow + config
+- [x] Step 3 — Database setup
+- [x] Core commands — add, logs, edit, delete
+- [x] Management commands — config, project, help
+
+**Spec is now complete.** All features from the specification have been implemented. The app is fully functional and ready for use.
+
+---
+
 ## Bug fixes — live home stats + entry format
 
 - **Home screen was static** — added `get_stats()` to `database.py` that computes total log count, current streak (consecutive days going back from today), last-7-days score averages, and whether the user has logged today. `show_home()` now takes `config` and `stats` and renders real data.
