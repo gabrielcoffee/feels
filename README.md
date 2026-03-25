@@ -49,21 +49,22 @@ feels help
 - **`feels delete <id>`** — Delete a log entry (with confirmation)
 
 ### Organization
-- **`feels config`** — Update settings (enable/disable focus, stress, projects)
-- **`feels project add <name>`** — Add a project
+- **`feels config`** — Update settings (enable/disable focus, stress, projects, tags, notes)
+- **`feels project add <name>`** — Manually add a project (or projects auto-create during `feels add`)
 - **`feels project list`** — Show all projects
 - **`feels project delete <name>`** — Remove a project
 
-### Insights
+### Insights & Data
 - **`feels stats`** — View statistics
   - Overall: total logs, average mood, best/worst mood
   - Optional: focus and stress averages (if enabled)
   - Last 7 days: logs this week and weekly average
-- **`feels export`** — Export logs
+- **`feels export`** — Export logs as JSON or CSV
   - `--format json` — JSON format (full details)
   - `--format csv` — CSV format (spreadsheet-friendly)
+- **`feels reset`** — Delete all data (logs, projects, settings) with double confirmation
 
-### Help
+### Help & Home
 - **`feels help`** — Show all available commands
 - **`feels`** — Show home screen with quick stats and command list
 
@@ -84,14 +85,39 @@ feels help
 ## Configuration
 
 Settings are interactive. On first run, choose your defaults:
-- **Mood score** — always enabled
-- **Focus score** — optional
-- **Stress score** — optional
-- **Projects** — optional (organize logs by project)
-- **Tags** — always enabled
-- **Notes** — always enabled
+- **Mood score** — always enabled (required)
+- **Focus score** — optional (enable/disable anytime)
+- **Stress score** — optional (enable/disable anytime)
+- **Projects** — optional (organize logs by project; projects auto-create during logging)
+- **Tags** — enabled by default (enable/disable anytime)
+- **Notes** — enabled by default (enable/disable anytime)
 
-Run `feels config` anytime to revisit and change these settings.
+Run **`feels config`** anytime to revisit and change these settings.
+
+### Projects
+
+When projects are enabled, you can create them on-the-fly while logging:
+
+```bash
+$ feels add
+  Project (last_project): new-project    # Type any project name
+  Mood: 4
+  ✓ Logged 4/5 mood #1
+
+# Next time, new-project is remembered as default
+$ feels add
+  Project (new-project):                 # Press Enter to use it again
+  Mood: 5
+  ✓ Logged 5/5 mood #2
+
+# Or override anytime
+$ feels add
+  Project (new-project): another-one     # New project auto-created
+  Mood: 3
+  ✓ Logged 3/5 mood #3
+```
+
+You can also manage projects with `feels project` commands.
 
 ## Data Storage
 
@@ -154,6 +180,17 @@ $ feels export --format csv
 ✓ Exported 42 logs to feels_20260325_170014.csv
 ```
 
+### Reset all data
+```bash
+$ feels reset
+This will delete all your logs, projects, and settings.
+Are you sure? [y/n] (n): y
+
+THIS ACTION CANNOT BE UNDONE. ALL DATA WILL BE PERMANENTLY DELETED. ARE YOU SURE? [y/n] (n): y
+
+✓ All data deleted. Run feels to start fresh.
+```
+
 ## Development
 
 ### Running Tests
@@ -189,10 +226,11 @@ feels/
 │   ├── logs.py          # View logs command
 │   ├── edit.py          # Edit log command
 │   ├── delete.py        # Delete log command
-│   ├── config_cmd.py    # Settings command
+│   ├── config_cmd.py    # Settings command (mood, focus, stress, projects, tags, notes)
 │   ├── project_cmd.py   # Project management command
-│   ├── stats_cmd.py     # Statistics command
-│   ├── export_cmd.py    # Export command
+│   ├── stats_cmd.py     # Statistics command (overall, weekly, optional scores)
+│   ├── export_cmd.py    # Export command (JSON, CSV)
+│   ├── reset_cmd.py     # Reset command (delete all data with confirmation)
 │   ├── help_cmd.py      # Help command
 │   ├── home.py          # Home screen display
 │   └── onboarding.py    # First-run setup

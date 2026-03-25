@@ -1,2 +1,3 @@
 [console_scripts]
 feels = feels.cli:main
+fls = feels.cli:main
