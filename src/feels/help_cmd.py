@@ -26,6 +26,9 @@ def run_help() -> None:
     table.add_row("feels project add <name>", "add a project")
     table.add_row("feels project list", "show all projects")
     table.add_row("feels project delete <name>", "remove a project")
+    table.add_row("feels stats", "view statistics")
+    table.add_row("feels export --format json", "export logs as JSON")
+    table.add_row("feels export --format csv", "export logs as CSV")
     table.add_row("feels help", "show this help")
 
     console.print(table)

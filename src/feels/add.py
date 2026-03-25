@@ -11,50 +11,53 @@ console = Console()
 
 
 def run_add(config: dict) -> None:
-    entry = {}
+    try:
+        entry = {}
 
-    console.print()
+        console.print()
 
-    # Project
-    if config.get("projects"):
-        last = config.get("last_project")
-        if last:
-            val = Prompt.ask(f"  [bold]Project[/bold]", default=last)
-        else:
-            val = Prompt.ask("  [bold]Project[/bold]")
-        entry["project"] = val.strip()
+        # Project
+        if config.get("projects"):
+            last = config.get("last_project")
+            if last:
+                val = Prompt.ask(f"  [bold]Project[/bold]", default=last)
+            else:
+                val = Prompt.ask("  [bold]Project[/bold]")
+            entry["project"] = val.strip()
 
-        if entry["project"] and entry["project"] != config.get("last_project"):
-            config["last_project"] = entry["project"]
-            save_config(config)
+            if entry["project"] and entry["project"] != config.get("last_project"):
+                config["last_project"] = entry["project"]
+                save_config(config)
 
-    # Scores
-    entry["mood"] = prompt_score(console, "Mood")
+        # Scores
+        entry["mood"] = prompt_score(console, "Mood")
 
-    if config.get("focus"):
-        entry["focus"] = prompt_score(console, "Focus")
+        if config.get("focus"):
+            entry["focus"] = prompt_score(console, "Focus")
 
-    if config.get("stress"):
-        entry["stress"] = prompt_score(console, "Stress")
+        if config.get("stress"):
+            entry["stress"] = prompt_score(console, "Stress")
 
-    # Tags
-    console.print()
-    tags = Prompt.ask("  [bold]Tags[/bold] [dim](optional, e.g. #work #tired)[/dim]", default="")
-    if tags.strip():
-        entry["tags"] = tags.strip()
+        # Tags
+        console.print()
+        tags = Prompt.ask("  [bold]Tags[/bold] [dim](optional, e.g. #work #tired)[/dim]", default="")
+        if tags.strip():
+            entry["tags"] = tags.strip()
 
-    # Note
-    note = Prompt.ask("  [bold]Note[/bold] [dim](optional)[/dim]", default="")
-    if note.strip():
-        entry["note"] = note.strip()
+        # Note
+        note = Prompt.ask("  [bold]Note[/bold] [dim](optional)[/dim]", default="")
+        if note.strip():
+            entry["note"] = note.strip()
 
-    entry["timestamp"] = datetime.now().isoformat(timespec="seconds")
+        entry["timestamp"] = datetime.now().isoformat(timespec="seconds")
 
-    log_id = insert_log(entry)
+        log_id = insert_log(entry)
 
-    mood_color = score_color(entry["mood"])
-    console.print()
-    console.print(
-        f"[green]✓[/green] Logged [bold {mood_color}]{entry['mood']}/5[/bold {mood_color}] mood  [dim]#{log_id}[/dim]"
-    )
-    console.print()
+        mood_color = score_color(entry["mood"])
+        console.print()
+        console.print(
+            f"[green]✓[/green] Logged [bold {mood_color}]{entry['mood']}/5[/bold {mood_color}] mood  [dim]#{log_id}[/dim]"
+        )
+        console.print()
+    except Exception as e:
+        console.print(f"\n[red]Error:[/red] Failed to save entry. {str(e)}\n")

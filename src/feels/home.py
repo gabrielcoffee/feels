@@ -32,7 +32,7 @@ def show_home(config: dict, stats: dict) -> None:
     else:
         nudge = None
 
-    commands_label = Text("commands:", style="bold")
+    commands_label = Text("main commands:", style="bold")
 
     table = Table(box=None, show_header=False, padding=(0, 2), pad_edge=False)
     table.add_column(style="bold")

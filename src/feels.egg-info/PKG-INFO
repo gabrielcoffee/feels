@@ -4,3 +4,6 @@ Version: 0.1.0
 Summary: CLI mood tracker for developers
 Requires-Python: >=3.10
 Requires-Dist: rich>=13.0
+Provides-Extra: test
+Requires-Dist: pytest>=7.0; extra == "test"
+Requires-Dist: pytest-cov>=4.0; extra == "test"

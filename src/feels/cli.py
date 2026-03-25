@@ -44,6 +44,11 @@ def main():
     del_proj = project_sub.add_parser("delete")
     del_proj.add_argument("name")
 
+    subparsers.add_parser("stats")
+
+    export_p = subparsers.add_parser("export")
+    export_p.add_argument("--format", default="json", help="json or csv")
+
     subparsers.add_parser("help")
 
     args = parser.parse_args()
@@ -66,6 +71,12 @@ def main():
     elif args.command == "project":
         from .project_cmd import run_project
         run_project(config, args)
+    elif args.command == "stats":
+        from .stats_cmd import run_stats
+        run_stats(config)
+    elif args.command == "export":
+        from .export_cmd import run_export
+        run_export(config, args)
     elif args.command == "help":
         from .help_cmd import run_help
         run_help()

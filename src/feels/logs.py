@@ -5,18 +5,35 @@ from rich.rule import Rule
 
 from .database import get_logs
 from .utils import format_entry
+from .validation import validate_date, handle_invalid_date
 
 console = Console()
 
 
 def run_logs(config: dict, args) -> None:
-    logs = get_logs(
-        from_date=getattr(args, "from_date", None),
-        to_date=getattr(args, "to_date", None),
-        project=getattr(args, "project", None),
-        newest_first=not getattr(args, "oldest", False),
-        all_logs=getattr(args, "all", False),
-    )
+    from_date = getattr(args, "from_date", None)
+    to_date = getattr(args, "to_date", None)
+
+    # Validate date formats
+    if from_date and not validate_date(from_date):
+        handle_invalid_date(from_date, "--from")
+        return
+
+    if to_date and not validate_date(to_date):
+        handle_invalid_date(to_date, "--to")
+        return
+
+    try:
+        logs = get_logs(
+            from_date=from_date,
+            to_date=to_date,
+            project=getattr(args, "project", None),
+            newest_first=not getattr(args, "oldest", False),
+            all_logs=getattr(args, "all", False),
+        )
+    except Exception as e:
+        console.print(f"[red]Error:[/red] Failed to retrieve logs. {str(e)}")
+        return
 
     console.print()
 
