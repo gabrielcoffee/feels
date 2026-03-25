@@ -22,12 +22,16 @@ def create_logo() -> Text:
         "    ███████  ███████  ███      ███████     ███",
         "    ███          ███  ███          ███     ███",
         "    ███████  ███████  ███████  ███████     ███",
+        "     F       E       E       L       S",
     ]
 
     for i, line in enumerate(lines):
         if i > 0:
             logo.append("\n")
-        logo.append(line, style="bold blue")
+        if i == 5:  # Label row
+            logo.append(line, style="dim blue")
+        else:
+            logo.append(line, style="bold blue")
 
     return logo
 
