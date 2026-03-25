@@ -20,13 +20,22 @@ def run_add(config: dict) -> None:
         if config.get("projects"):
             last = config.get("last_project")
             if last:
-                val = Prompt.ask(f"  [bold]Project[/bold]", default=last)
+                val = Prompt.ask(f"  [bold]Project[/bold] [dim]({last})[/dim]", default=last)
             else:
                 val = Prompt.ask("  [bold]Project[/bold]")
             entry["project"] = val.strip()
 
-            if entry["project"] and entry["project"] != config.get("last_project"):
-                config["last_project"] = entry["project"]
+            if entry["project"]:
+                # Auto-add project if it doesn't exist
+                active_projects = config.get("active_projects", [])
+                if entry["project"] not in active_projects:
+                    active_projects.append(entry["project"])
+                    config["active_projects"] = active_projects
+
+                # Update last_project
+                if entry["project"] != config.get("last_project"):
+                    config["last_project"] = entry["project"]
+
                 save_config(config)
 
         # Scores

@@ -1,7 +1,7 @@
 import argparse
 
 from .config import config_exists, load_config
-from .database import db_exists, get_stats, init_db
+from .database import db_exists, get_stats, get_weekly_mood_by_day, init_db
 from .home import show_home
 from .onboarding import run_onboarding
 
@@ -49,6 +49,8 @@ def main():
     export_p = subparsers.add_parser("export")
     export_p.add_argument("--format", default="json", help="json or csv")
 
+    subparsers.add_parser("reset")
+
     subparsers.add_parser("help")
 
     args = parser.parse_args()
@@ -77,8 +79,12 @@ def main():
     elif args.command == "export":
         from .export_cmd import run_export
         run_export(config, args)
+    elif args.command == "reset":
+        from .reset_cmd import run_reset
+        run_reset()
     elif args.command == "help":
         from .help_cmd import run_help
         run_help()
     else:
-        show_home(config, get_stats(config))
+        weekly_moods = get_weekly_mood_by_day()
+        show_home(config, get_stats(config), weekly_moods)

@@ -1,3 +1,5 @@
+LICENSE
+MANIFEST.in
 README.md
 pyproject.toml
 src/feels/__init__.py
@@ -14,6 +16,7 @@ src/feels/home.py
 src/feels/logs.py
 src/feels/onboarding.py
 src/feels/project_cmd.py
+src/feels/reset_cmd.py
 src/feels/stats_cmd.py
 src/feels/utils.py
 src/feels/validation.py
@@ -23,6 +26,7 @@ src/feels.egg-info/dependency_links.txt
 src/feels.egg-info/entry_points.txt
 src/feels.egg-info/requires.txt
 src/feels.egg-info/top_level.txt
+tests/__init__.py
 tests/test_config.py
 tests/test_database.py
 tests/test_utils.py

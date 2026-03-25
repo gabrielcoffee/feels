@@ -162,3 +162,19 @@ def get_stats(config: dict) -> dict:
         "logged_today": logged_today,
         "week_avg": week_avg,
     }
+
+
+def get_weekly_mood_by_day() -> dict:
+    """Get average mood for each day in the last 7 calendar days.
+
+    Returns dict mapping date_str (YYYY-MM-DD) to average mood (float).
+    Only includes days that have log entries.
+    """
+    since = (datetime.now() - timedelta(days=6)).strftime("%Y-%m-%d")
+    conn = _connect()
+    rows = conn.execute(
+        "SELECT DATE(timestamp) as day, AVG(mood) as avg_mood FROM logs WHERE DATE(timestamp) >= ? GROUP BY day ORDER BY day",
+        (since,),
+    ).fetchall()
+    conn.close()
+    return {row["day"]: row["avg_mood"] for row in rows}

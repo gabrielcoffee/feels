@@ -1,3 +1,138 @@
+# Changes
+
+## 7-Day Mood Matrix Visualization (New)
+
+**Shows on home screen when user has a 7+ day streak**
+
+A visual matrix chart displaying mood trends for the past 7 days:
+- **Column layout**: Each column represents one day (oldest on left, newest on right)
+- **Row height**: Each row represents a mood level (5 rows for moods 1-5)
+- **Block stacking**: Column height indicates daily average mood, filled from bottom to top
+- **Color coding**: Each block colored by mood score using existing mood color scheme
+- **Day labels**: Abbreviated weekday names at top (Mo, Tu, We, Th, Fr, Sa, Su)
+- **Score display**: Mood scores shown below each column in the same mood color
+
+**Example visualization**:
+```
+Mo Tu We Th Fr Sa Su
+         ██
+   ██    ██  ██
+   ██    ██  ██ ██
+██ ██    ██  ██ ██
+██ ██    ██  ██ ██
+ 2  3  0  4  3  5  2
+```
+
+This provides instant visual feedback on recent mood patterns and complements text-based statistics.
+
+---
+
+## Home Screen Visual Enhancements
+
+### Log Count Styling
+- **Number is bold**, text is normal
+- Example: **12** logs (bold number, normal "logs" text)
+
+### Streak Styling
+Progressive visual celebration based on consecutive days:
+
+**Days 1-3**: Number is bold
+- Display: **1** day streak
+
+**Days 5-6**: Whole text is bold
+- Display: **5 day streak**
+
+**Days 7-9**: Whole text bold with 1 exclamation
+- Display: **7 day streak!**
+
+**Days 10-19**: Yellow with 2 exclamation marks
+- Display: **10 day streak!!** (yellow)
+
+**Days 20-29**: Cyan with 3 exclamation marks
+- Display: **20 day streak!!!** (cyan)
+
+**Days 30-39**: Magenta with 4 exclamation marks
+- Display: **30 day streak!!!!** (magenta)
+
+**Days 40-49**: Green with 5 exclamation marks
+- Display: **40 day streak!!!!!** (green)
+
+**Days 50-59**: Blue with 6 exclamation marks
+- Display: **50 day streak!!!!!!** (blue)
+
+**Days 60-69**: Red with 7 exclamation marks
+- Display: **60 day streak!!!!!!!** (red)
+
+**Days 70-79**: White with 8 exclamation marks
+- Display: **70 day streak!!!!!!!!** (white)
+
+**Days 80-89**: Yellow (cycling back) with 9 exclamation marks
+- Display: **80 day streak!!!!!!!!!** (yellow)
+
+**Days 90-99**: Cyan with 10 exclamation marks
+- Display: **90 day streak!!!!!!!!!!** (cyan)
+
+**Days 100-999**: Random color each day with 1 exclamation mark
+- Display: **100 day streak!** (random color, changes daily)
+- Text remains bold throughout
+
+**Days 1000+**: Yellow forever with 1 exclamation mark
+- Display: **1000 day streak!** (yellow, permanent)
+- Text remains bold forever
+- Ultimate achievement: stays yellow and bold, no more color changes
+
+---
+
+# Changes
+
+## User Experience Improvements
+
+### Config Command Enhanced
+- Now shows **all configuration options**: mood (always on), focus, stress, projects, tags, notes
+- Added **blank line** between mood/focus/stress and projects/tags/notes for visual separation
+- Allows toggling tags and notes (previously only showed focus/stress/projects)
+- Mood remains "always on" as required
+
+### Reset Command Added
+- **`feels reset`** — Delete all user data (logs, projects, settings)
+- **Double confirmation** required for safety:
+  - First prompt: "This will delete all your logs, projects, and settings. Are you sure?"
+  - Second prompt: "THIS ACTION CANNOT BE UNDONE. ALL DATA WILL BE PERMANENTLY DELETED. ARE YOU SURE?" (in CAPSLOCK)
+- Provides clear feedback on what was deleted
+
+### Project Creation On-The-Fly
+- **`feels add`** now auto-creates projects if they don't exist
+- User can enter any project name while logging, project is added to active_projects automatically
+- **Last project shown in parentheses** as default suggestion: `Project (work)`
+- User can still override by typing a different project name
+- Eliminates the need to pre-create projects with `feels project add`
+
+### Example Workflow
+```bash
+# First time logging with projects enabled
+$ feels add
+  Project: work           # (no suggestion yet)
+  Mood: 4
+  ...
+  ✓ Logged 4/5 mood #1
+
+# Next log automatically suggests last project
+$ feels add
+  Project (work):         # Press enter to use 'work' again
+  Mood: 5
+  ...
+  ✓ Logged 5/5 mood #2
+
+# Or override with a new project (auto-creates it)
+$ feels add
+  Project (work): personal  # New project 'personal' is created automatically
+  Mood: 3
+  ...
+  ✓ Logged 3/5 mood #3
+```
+
+---
+
 # Implementation Summary
 
 ## Completed Work

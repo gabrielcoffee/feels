@@ -29,6 +29,7 @@ def run_help() -> None:
     table.add_row("feels stats", "view statistics")
     table.add_row("feels export --format json", "export logs as JSON")
     table.add_row("feels export --format csv", "export logs as CSV")
+    table.add_row("feels reset", "delete all data (with confirmation)")
     table.add_row("feels help", "show this help")
 
     console.print(table)
