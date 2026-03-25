@@ -1,4 +1,5 @@
 import argparse
+import sys
 
 from .config import config_exists, load_config
 from .database import db_exists, get_stats, get_weekly_mood_by_day, init_db
@@ -7,6 +8,14 @@ from .onboarding import run_onboarding
 
 
 def main():
+    try:
+        _run()
+    except KeyboardInterrupt:
+        # Graceful exit on Ctrl+C
+        sys.exit(0)
+
+
+def _run():
     if not config_exists():
         run_onboarding()
         return

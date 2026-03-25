@@ -12,6 +12,26 @@ from .utils import score_color
 console = Console()
 
 
+def create_logo() -> Text:
+    """Create a vibrant blue pixel art logo for feels."""
+    logo = Text()
+
+    lines = [
+        "    ███████  ███████  ███████  ███████  ███████",
+        "    ███      ███      ███      ███         ███",
+        "    ███████  ███████  ███      ███████     ███",
+        "    ███          ███  ███          ███     ███",
+        "    ███████  ███████  ███████  ███████     ███",
+    ]
+
+    for i, line in enumerate(lines):
+        if i > 0:
+            logo.append("\n")
+        logo.append(line, style="bold blue")
+
+    return logo
+
+
 def format_streak(streak: int) -> Text:
     """Format streak with styling based on day count."""
     if streak == 0:
@@ -132,10 +152,8 @@ def format_mood_matrix(weekly_moods: dict) -> list:
 
 
 def show_home(config: dict, stats: dict, weekly_moods: dict = None) -> None:
-    header = Text.assemble(
-        ("Welcome to ", "bold"),
-        ("feels", "bold bright_cyan"),
-    )
+    # Use logo instead of text header
+    header = create_logo()
 
     # Stats line
     total = stats["total"]
