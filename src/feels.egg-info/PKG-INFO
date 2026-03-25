@@ -1,0 +1,6 @@
+Metadata-Version: 2.4
+Name: feels
+Version: 0.1.0
+Summary: CLI mood tracker for developers
+Requires-Python: >=3.10
+Requires-Dist: rich>=13.0

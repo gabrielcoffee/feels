@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "feels"
+version = "0.1.0"
+description = "CLI mood tracker for developers"
+requires-python = ">=3.10"
+dependencies = [
+    "rich>=13.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+feels = "feels.cli:main"
