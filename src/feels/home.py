@@ -13,25 +13,30 @@ console = Console()
 
 
 def create_logo() -> Text:
-    """Create a vibrant blue pixel art logo for feels."""
+    """Create a stylized logo for feels."""
     logo = Text()
 
-    lines = [
-        "    ███████  ███████  ███████  ███████  ███████",
-        "    ███      ███      ███      ███         ███",
-        "    ███████  ███████  ███      ███████     ███",
-        "    ███          ███  ███          ███     ███",
-        "    ███████  ███████  ███████  ███████     ███",
-        "     F       E       E       L       S",
-    ]
+    logo.append("    ", style="")
+    logo.append("▀▀▀▀▀  ", style="bold bright_blue")
+    logo.append("▀▀▀▀▀  ", style="bold bright_blue")
+    logo.append("▀▀▀▀▀  ", style="bold bright_blue")
+    logo.append("▀▀▀▀▀  ", style="bold bright_blue")
+    logo.append("▀▀▀▀▀", style="bold bright_blue")
+    logo.append("\n")
 
-    for i, line in enumerate(lines):
-        if i > 0:
-            logo.append("\n")
-        if i == 5:  # Label row
-            logo.append(line, style="dim blue")
-        else:
-            logo.append(line, style="bold blue")
+    logo.append("    f  ", style="bold bright_blue")
+    logo.append("e  ", style="bold bright_blue")
+    logo.append("e  ", style="bold bright_blue")
+    logo.append("l  ", style="bold bright_blue")
+    logo.append("s", style="bold bright_blue")
+    logo.append("\n")
+
+    logo.append("    ", style="")
+    logo.append("▄▄▄▄▄  ", style="bold bright_blue")
+    logo.append("▄▄▄▄▄  ", style="bold bright_blue")
+    logo.append("▄▄▄▄▄  ", style="bold bright_blue")
+    logo.append("▄▄▄▄▄  ", style="bold bright_blue")
+    logo.append("▄▄▄▄▄", style="bold bright_blue")
 
     return logo
 
