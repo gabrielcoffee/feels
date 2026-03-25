@@ -8,22 +8,44 @@ A visual matrix chart displaying mood trends for the past 7 days:
 - **Column layout**: Each column represents one day (oldest on left, newest on right)
 - **Row height**: Each row represents a mood level (5 rows for moods 1-5)
 - **Block stacking**: Column height indicates daily average mood, filled from bottom to top
-- **Color coding**: Each block colored by mood score using existing mood color scheme
+- **Color coding**: Gradient from cyan/light blue (mood 5) → magenta (mood 3) → red (mood 1), with gray for mood 0
 - **Day labels**: Abbreviated weekday names at top (Mo, Tu, We, Th, Fr, Sa, Su)
 - **Score display**: Mood scores shown below each column in the same mood color
+
+**Color gradient**:
+- Mood 5: **cyan** (light blue)
+- Mood 4: **bright blue**
+- Mood 3: **magenta** (purple)
+- Mood 2: **orange**
+- Mood 1: **red**
+- Mood 0: **gray** (no blocks shown)
 
 **Example visualization**:
 ```
 Mo Tu We Th Fr Sa Su
-         ██
-   ██    ██  ██
-   ██    ██  ██ ██
-██ ██    ██  ██ ██
-██ ██    ██  ██ ██
- 2  3  0  4  3  5  2
+██                ██
+██ ██             ██
+██ ██ ██          ██
+██ ██ ██ ██       ██
+██ ██ ██ ██ ██    ██
+ 5  4  3  2  1  0  5
 ```
 
 This provides instant visual feedback on recent mood patterns and complements text-based statistics.
+
+---
+
+## Mood Color Palette Update
+
+Changed the mood color scheme across the app to use a **blue-to-red gradient**:
+- **Mood 5**: cyan (light blue) — excellent
+- **Mood 4**: bright blue — good
+- **Mood 3**: magenta (purple) — neutral
+- **Mood 2**: orange — below average
+- **Mood 1**: red — poor
+- **Mood 0**: gray (white dimmed) — not logged / no data
+
+This gradient provides intuitive visual feedback where cooler colors (blue) represent better moods and warmer colors (red) represent worse moods. Applied to all mood displays: home screen, mood matrix, logs, stats, and entry details.
 
 ---
 
@@ -34,51 +56,49 @@ This provides instant visual feedback on recent mood patterns and complements te
 - Example: **12** logs (bold number, normal "logs" text)
 
 ### Streak Styling
-Progressive visual celebration based on consecutive days:
+Progressive visual celebration based on consecutive days. **The streak number is always bold and visually separated from the text**, making it prominently stand out at all streak levels.
 
-**Days 1-3**: Number is bold
+**Days 1-4**: Bold number, dim text
 - Display: **1** day streak
 
-**Days 5-6**: Whole text is bold
-- Display: **5 day streak**
+**Days 5-6**: Bold number, dim text
+- Display: **5** day streak
 
-**Days 7-9**: Whole text bold with 1 exclamation
-- Display: **7 day streak!**
+**Days 7-9**: Bold number, dim text with 1 exclamation
+- Display: **7** day streak!
 
-**Days 10-19**: Yellow with 2 exclamation marks
-- Display: **10 day streak!!** (yellow)
+**Days 10-19**: Bold number with color (yellow), dim text with 2 exclamation marks
+- Display: **10** day streak!! (10 in yellow, text dim)
 
-**Days 20-29**: Cyan with 3 exclamation marks
-- Display: **20 day streak!!!** (cyan)
+**Days 20-29**: Bold number with color (cyan), dim text with 3 exclamation marks
+- Display: **20** day streak!!! (20 in cyan, text dim)
 
-**Days 30-39**: Magenta with 4 exclamation marks
-- Display: **30 day streak!!!!** (magenta)
+**Days 30-39**: Bold number with color (magenta), dim text with 4 exclamation marks
+- Display: **30** day streak!!!! (30 in magenta, text dim)
 
-**Days 40-49**: Green with 5 exclamation marks
-- Display: **40 day streak!!!!!** (green)
+**Days 40-49**: Bold number with color (green), dim text with 5 exclamation marks
+- Display: **40** day streak!!!!! (40 in green, text dim)
 
-**Days 50-59**: Blue with 6 exclamation marks
-- Display: **50 day streak!!!!!!** (blue)
+**Days 50-59**: Bold number with color (blue), dim text with 6 exclamation marks
+- Display: **50** day streak!!!!!! (50 in blue, text dim)
 
-**Days 60-69**: Red with 7 exclamation marks
-- Display: **60 day streak!!!!!!!** (red)
+**Days 60-69**: Bold number with color (red), dim text with 7 exclamation marks
+- Display: **60** day streak!!!!!!! (60 in red, text dim)
 
-**Days 70-79**: White with 8 exclamation marks
-- Display: **70 day streak!!!!!!!!** (white)
+**Days 70-79**: Bold number with color (white), dim text with 8 exclamation marks
+- Display: **70** day streak!!!!!!!!! (70 in white, text dim)
 
-**Days 80-89**: Yellow (cycling back) with 9 exclamation marks
-- Display: **80 day streak!!!!!!!!!** (yellow)
+**Days 80-89**: Bold number with color (yellow), dim text with 9 exclamation marks
+- Display: **80** day streak!!!!!!!!! (80 in yellow, text dim)
 
-**Days 90-99**: Cyan with 10 exclamation marks
-- Display: **90 day streak!!!!!!!!!!** (cyan)
+**Days 90-99**: Bold number with color (cyan), dim text with 10 exclamation marks
+- Display: **90** day streak!!!!!!!!!!! (90 in cyan, text dim)
 
-**Days 100-999**: Random color each day with 1 exclamation mark
-- Display: **100 day streak!** (random color, changes daily)
-- Text remains bold throughout
+**Days 100-999**: Bold number with random color, dim text with 1 exclamation mark
+- Display: **100** day streak! (100 in random color that changes daily, text dim)
 
-**Days 1000+**: Yellow forever with 1 exclamation mark
-- Display: **1000 day streak!** (yellow, permanent)
-- Text remains bold forever
+**Days 1000+**: Bold number in yellow, dim text with 1 exclamation mark
+- Display: **1000** day streak! (1000 in yellow, permanent, text dim)
 - Ultimate achievement: stays yellow and bold, no more color changes
 
 ---

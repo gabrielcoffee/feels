@@ -22,39 +22,48 @@ def format_streak(streak: int) -> Text:
 
     # Calculate exclamation marks and styling
     if streak < 5:
-        # Days 1-4: Just number bold
-        streak_str = f"{streak}"
+        # Days 1-4: Number bold, text dim
         return Text.assemble(
-            (streak_str, "bold"),
+            (str(streak), "bold"),
             (" day streak", "dim"),
         )
     elif streak < 7:
-        # Day 5-6: Whole text bold
-        streak_str = f"{streak} day streak"
-        return Text(streak_str, style="bold dim")
+        # Days 5-6: Number bold, text dim
+        return Text.assemble(
+            (str(streak), "bold"),
+            (" day streak", "dim"),
+        )
     elif streak < 10:
-        # Day 7-9: Add one ! at the end
-        streak_str = f"{streak} day streak!"
-        return Text(streak_str, style="bold dim")
+        # Days 7-9: Number bold, text dim with !
+        return Text.assemble(
+            (str(streak), "bold"),
+            (" day streak!", "dim"),
+        )
     elif streak < 100:
-        # Days 10-99: Colors every 10 days with increasing !
+        # Days 10-99: Number bold with color, text dim
         # Day 10: 2 !!, Day 20: 3 !!!, Day 30: 4 !!!!, etc.
         milestone_tier = streak // 10  # 10-19: tier 1, 20-29: tier 2, etc.
         color_index = (milestone_tier - 1) % len(colors)  # 1->0, 2->1, 3->2, etc
         color = colors[color_index]
         exclamations = "!" * (milestone_tier + 1)  # tier 1: 2 !!, tier 2: 3 !!!, etc.
-        streak_str = f"{streak} day streak{exclamations}"
-        return Text(streak_str, style=f"bold {color}")
+        return Text.assemble(
+            (str(streak), f"bold {color}"),
+            (f" day streak{exclamations}", "dim"),
+        )
     elif streak < 1000:
-        # Days 100-999: Random color, one !, text bold
+        # Days 100-999: Number bold with random color, text dim with !
         colors_100_plus = ["bright_cyan", "magenta", "bright_green", "bright_blue", "bright_red", "bright_white", "yellow"]
         color = random.choice(colors_100_plus)
-        streak_str = f"{streak} day streak!"
-        return Text(streak_str, style=f"bold {color}")
+        return Text.assemble(
+            (str(streak), f"bold {color}"),
+            (" day streak!", "dim"),
+        )
     else:
-        # Days 1000+: Yellow forever, whole text bold
-        streak_str = f"{streak} day streak!"
-        return Text(streak_str, style="bold yellow")
+        # Days 1000+: Number bold yellow, text dim with !
+        return Text.assemble(
+            (str(streak), "bold yellow"),
+            (" day streak!", "dim"),
+        )
 
 
 def format_mood_matrix(weekly_moods: dict) -> list:

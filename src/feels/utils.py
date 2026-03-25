@@ -5,7 +5,7 @@ from rich.console import Console
 from rich.prompt import Prompt
 from rich.text import Text
 
-SCORE_COLORS = ["red", "dark_orange", "orange1", "yellow1", "chartreuse3", "green"]
+SCORE_COLORS = ["white", "red", "orange1", "magenta", "bright_blue", "cyan"]
 
 
 def score_color(score: int) -> str:
