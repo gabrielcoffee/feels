@@ -13,9 +13,9 @@ A visual matrix chart displaying mood trends for the past 7 days:
 - **Score display**: Mood scores shown below each column in the same mood color
 
 **Color gradient**:
-- Mood 5: **cyan** (light blue)
-- Mood 4: **bright blue**
-- Mood 3: **magenta** (purple)
+- Mood 5: **blue**
+- Mood 4: **green**
+- Mood 3: **yellow**
 - Mood 2: **orange**
 - Mood 1: **red**
 - Mood 0: **gray** (no blocks shown)
@@ -37,15 +37,15 @@ This provides instant visual feedback on recent mood patterns and complements te
 
 ## Mood Color Palette Update
 
-Changed the mood color scheme across the app to use a **blue-to-red gradient**:
-- **Mood 5**: cyan (light blue) — excellent
-- **Mood 4**: bright blue — good
-- **Mood 3**: magenta (purple) — neutral
-- **Mood 2**: orange — below average
-- **Mood 1**: red — poor
-- **Mood 0**: gray (white dimmed) — not logged / no data
+Changed the mood color scheme across the app to use a clean, saturated **blue → green → yellow → orange → red gradient**:
+- **Mood 5**: Blue — excellent
+- **Mood 4**: Green — good
+- **Mood 3**: Yellow — neutral
+- **Mood 2**: Orange — below average
+- **Mood 1**: Red — poor
+- **Mood 0**: Gray (white dimmed) — not logged / no data
 
-This gradient provides intuitive visual feedback where cooler colors (blue) represent better moods and warmer colors (red) represent worse moods. Applied to all mood displays: home screen, mood matrix, logs, stats, and entry details.
+This gradient provides intuitive visual feedback where cooler colors (blue/green) represent better moods and warmer colors (orange/red) represent worse moods. All colors are saturated and vibrant for clear visibility. Applied to all mood displays: home screen, mood matrix, logs, stats, and entry details.
 
 ---
 
