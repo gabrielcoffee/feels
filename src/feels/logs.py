@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from rich.console import Console
+from rich.panel import Panel
 from rich.rule import Rule
 
 from .database import get_logs
@@ -52,5 +53,9 @@ def run_logs(config: dict, args) -> None:
             console.print(Rule(f"[dim]{ts.strftime('%B %-d, %Y')}[/dim]", style="bright_black"))
             console.print()
 
-        console.print(format_entry(entry, config))
+        console.print(Panel.fit(
+            format_entry(entry, config),
+            border_style="bright_black",
+            padding=(0, 2),
+        ))
         console.print()

@@ -12,32 +12,22 @@ from .utils import score_color
 console = Console()
 
 
+LOGO = [
+    "██████ ████ ████ █    ████",
+    "█      █    █    █    █   ",
+    "████   ███  ███  █    ████",
+    "█      █    █    █       █",
+    "█      ████ ████ ████ ████",
+]
+
+
 def create_logo() -> Text:
-    """Create a stylized logo for feels."""
+    """Create a vibrant blue pixel art logo for feels."""
     logo = Text()
-
-    logo.append("    ", style="")
-    logo.append("▀▀▀▀▀  ", style="bold bright_blue")
-    logo.append("▀▀▀▀▀  ", style="bold bright_blue")
-    logo.append("▀▀▀▀▀  ", style="bold bright_blue")
-    logo.append("▀▀▀▀▀  ", style="bold bright_blue")
-    logo.append("▀▀▀▀▀", style="bold bright_blue")
-    logo.append("\n")
-
-    logo.append("    f  ", style="bold bright_blue")
-    logo.append("e  ", style="bold bright_blue")
-    logo.append("e  ", style="bold bright_blue")
-    logo.append("l  ", style="bold bright_blue")
-    logo.append("s", style="bold bright_blue")
-    logo.append("\n")
-
-    logo.append("    ", style="")
-    logo.append("▄▄▄▄▄  ", style="bold bright_blue")
-    logo.append("▄▄▄▄▄  ", style="bold bright_blue")
-    logo.append("▄▄▄▄▄  ", style="bold bright_blue")
-    logo.append("▄▄▄▄▄  ", style="bold bright_blue")
-    logo.append("▄▄▄▄▄", style="bold bright_blue")
-
+    for i, line in enumerate(LOGO):
+        if i > 0:
+            logo.append("\n")
+        logo.append(line, style="bold bright_blue")
     return logo
 
 
