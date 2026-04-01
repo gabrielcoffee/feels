@@ -1,259 +1,136 @@
 # feels
 
-A local-first CLI mood tracker for developers. Log how you're feeling, track focus and stress, organize by project, all from your terminal.
+A mood tracker for developers. Runs entirely in your terminal.
 
 **All data stays on your machine.** No cloud. No accounts. No tracking.
 
-## Installation
+## Install
 
 ```bash
-# From PyPI (when published)
 pip install feels
-
-# From source
-git clone https://github.com/gabrielpereira/feels.git
-cd feels
-pip install -e .
 ```
 
-## Quick Start
+First run walks you through a quick setup. Then just type `feels`.
 
-```bash
-# First run — interactive setup
-feels
-
-# Log an entry (interactive prompts)
-feels add
-
-# View logs (last 7 days by default)
-feels logs
-
-# View all logs
-feels logs --all
-
-# See all commands
-feels help
-```
+You can also use `fls` as a shorter alias — same thing.
 
 ## Commands
 
 ### Logging
-- **`feels add`** — Log a new entry with mood (0–5), optional focus/stress scores, tags, and a note
-- **`feels logs`** — View logs grouped by day
-  - `--all` — Show all logs ever
-  - `--oldest` — Reverse sort (oldest first)
-  - `--from YYYY-MM-DD` — Start date
-  - `--to YYYY-MM-DD` — End date
-  - `--project <name>` — Filter by project
-- **`feels edit <id>`** — Edit an existing log entry
-- **`feels delete <id>`** — Delete a log entry (with confirmation)
 
-### Organization
-- **`feels config`** — Update settings (enable/disable focus, stress, projects, tags, notes)
-- **`feels project add <name>`** — Manually add a project (or projects auto-create during `feels add`)
-- **`feels project list`** — Show all projects
-- **`feels project delete <name>`** — Remove a project
+```bash
+feels log                        # log how you're feeling
+feels log --yesterday            # log for yesterday
+feels log --date DD-MM-YYYY      # log for a specific date
+```
 
-### Insights & Data
-- **`feels stats`** — View statistics
-  - Overall: total logs, average mood, best/worst mood
-  - Optional: focus and stress averages (if enabled)
-  - Last 7 days: logs this week and weekly average
-- **`feels export`** — Export logs as JSON or CSV
-  - `--format json` — JSON format (full details)
-  - `--format csv` — CSV format (spreadsheet-friendly)
-- **`feels reset`** — Delete all data (logs, projects, settings) with double confirmation
+### Viewing logs
 
-### Help & Home
-- **`feels help`** — Show all available commands
-- **`feels`** — Show home screen with quick stats and command list
+```bash
+feels logs                       # last 7 days
+feels logs --all                 # everything
+feels logs --oldest              # oldest first
+feels logs --from DD-MM-YYYY     # from a date
+feels logs --to DD-MM-YYYY       # up to a date
+feels logs --project <name>      # filter by project
+```
 
-## Features
+### Visualizing
 
-✅ **Log mood entries** with optional focus and stress scores (0–5)
-✅ **Add tags and notes** to logs for context
-✅ **Organize by project** (optional) to keep work separated
-✅ **View logs grouped by day** with flexible filtering
-✅ **Edit & delete** entries anytime
-✅ **Home dashboard** showing total logs, current streak, last 7-days average
-✅ **Statistics** — overall and weekly mood/focus/stress analysis
-✅ **Export data** as JSON (full) or CSV (spreadsheet)
-✅ **Local storage only** — everything at `~/.feels/`, completely private
-✅ **Comprehensive tests** — 23 tests covering core functionality
-✅ **Robust error handling** — validates input and reports clear errors
+```bash
+feels graph                      # monthly bar chart
+feels graph --from MM            # specific month this year
+feels graph --from MM-YYYY       # specific month and year
 
-## Configuration
+feels calendar                   # monthly calendar view
+feels calendar --from MM-YYYY    # navigate to any month
+```
 
-Settings are interactive. On first run, choose your defaults:
-- **Mood score** — always enabled (required)
-- **Focus score** — optional (enable/disable anytime)
-- **Stress score** — optional (enable/disable anytime)
-- **Projects** — optional (organize logs by project; projects auto-create during logging)
-- **Tags** — enabled by default (enable/disable anytime)
-- **Notes** — enabled by default (enable/disable anytime)
+### Editing
 
-Run **`feels config`** anytime to revisit and change these settings.
+```bash
+feels edit <id>                  # edit an entry
+feels delete <id>                # delete one or more entries
+```
 
 ### Projects
 
-When projects are enabled, you can create them on-the-fly while logging:
+```bash
+feels project add <name>         # add a project
+feels project list               # list all projects
+feels project delete <name>      # remove a project
+```
+
+### Data
 
 ```bash
-$ feels add
-  Project (last_project): new-project    # Type any project name
-  Mood: 4
-  ✓ Logged 4/5 mood #1
-
-# Next time, new-project is remembered as default
-$ feels add
-  Project (new-project):                 # Press Enter to use it again
-  Mood: 5
-  ✓ Logged 5/5 mood #2
-
-# Or override anytime
-$ feels add
-  Project (new-project): another-one     # New project auto-created
-  Mood: 3
-  ✓ Logged 3/5 mood #3
+feels stats                      # view statistics
+feels export --format json       # export as JSON
+feels export --format csv        # export as CSV
+feels reset                      # delete all data
 ```
 
-You can also manage projects with `feels project` commands.
-
-## Data Storage
-
-All your data lives locally:
-- `~/.feels/config.json` — your configuration
-- `~/.feels/data.db` — your log entries (SQLite database)
-
-**No internet required.** No servers. No tracking. No data leaves your machine.
-
-## Examples
-
-### Log your first entry
-```bash
-$ feels add
-  Project: work
-  Mood (0–5): 4
-  Focus (0–5): 3
-  Stress (0–5): 2
-  Tags: #meetings #productive
-  Note: Good progress on the project
-
-✓ Logged 4/5 mood #1
-```
-
-### View logs from the last week
-```bash
-$ feels logs
-──────────────────── March 25, 2026 ────────────────────
-#1  ·  14:30  ·  work
-4/5  3/5 focus  2/5 stress  #meetings  #productive
-Good progress on the project
-```
-
-### View statistics
-```bash
-$ feels stats
-
-Overall
-   total logs          42
-   avg mood            3.8/5
-   best               5/5
-   worst              1/5
-
-Focus
-   avg                3.5/5
-   best               5/5
-   worst              1/5
-
-Last 7 days
-   logs this week     12
-   avg mood           4.1/5
-```
-
-### Export your logs
-```bash
-$ feels export --format json
-✓ Exported 42 logs to feels_20260325_170013.json
-
-$ feels export --format csv
-✓ Exported 42 logs to feels_20260325_170014.csv
-```
-
-### Reset all data
-```bash
-$ feels reset
-This will delete all your logs, projects, and settings.
-Are you sure? [y/n] (n): y
-
-THIS ACTION CANNOT BE UNDONE. ALL DATA WILL BE PERMANENTLY DELETED. ARE YOU SURE? [y/n] (n): y
-
-✓ All data deleted. Run feels to start fresh.
-```
-
-## Development
-
-### Running Tests
+### Reminder
 
 ```bash
-# Install test dependencies
-pip install -e ".[test]"
-
-# Run all tests
-pytest tests/ -v
-
-# Run with coverage
-pytest tests/ --cov=src/feels --cov-report=html
+feels reminder                   # show reminder status
+feels reminder set HH:MM         # set a daily reminder
+feels reminder unset             # remove the reminder
 ```
 
-Current test coverage:
-- **100%** config module
-- **84%** database module
-- **85%** utils module
-- **21%** overall
+The reminder opens your terminal running `feels` at the set time. Detects Ghostty, iTerm2, and Terminal.app automatically.
 
-### Project Structure
+### Other
 
-```
-feels/
-├── src/feels/
-│   ├── cli.py           # CLI entry point and argument routing
-│   ├── config.py        # Configuration management
-│   ├── database.py      # SQLite database operations
-│   ├── utils.py         # Shared utilities (colors, formatting)
-│   ├── validation.py    # Input validation
-│   ├── add.py           # Log entry command
-│   ├── logs.py          # View logs command
-│   ├── edit.py          # Edit log command
-│   ├── delete.py        # Delete log command
-│   ├── config_cmd.py    # Settings command (mood, focus, stress, projects, tags, notes)
-│   ├── project_cmd.py   # Project management command
-│   ├── stats_cmd.py     # Statistics command (overall, weekly, optional scores)
-│   ├── export_cmd.py    # Export command (JSON, CSV)
-│   ├── reset_cmd.py     # Reset command (delete all data with confirmation)
-│   ├── help_cmd.py      # Help command
-│   ├── home.py          # Home screen display
-│   └── onboarding.py    # First-run setup
-├── tests/               # Test suite
-├── pyproject.toml       # Package configuration
-└── README.md            # This file
+```bash
+feels config                     # update settings
+feels help                       # all commands
+feels                            # home screen
 ```
 
-## Roadmap
+## Configuration
 
-- [ ] Theme customization (light/dark, custom colors)
-- [ ] Mood trends over time
-- [ ] Daily/weekly/monthly summaries
-- [ ] Best/worst times of day analysis
-- [ ] Export to other formats (PDF, Excel)
-- [ ] Data import from CSV
-- [ ] Cloud sync option (optional, default local)
-- [ ] Plugin system for custom commands
+On first run you choose your setup. Defaults are **mood + asciimoji + note**. You can optionally enable:
+
+- **Focus score** — 0–5, how locked in you were
+- **Stress score** — 0–5, lower is better
+- **Projects** — separate logs by what you're working on
+
+Run `feels config` anytime to change these.
+
+## Data
+
+Everything lives at `~/.feels/`:
+
+- `config.json` — your settings
+- `data.db` — your entries (SQLite)
+
+No internet required. Nothing leaves your machine.
+
+## Project structure
+
+```
+src/feels/
+├── cli.py           # routing
+├── config.py        # config management
+├── database.py      # SQLite operations
+├── utils.py         # colors, formatting, prompts
+├── home.py          # home screen
+├── add.py           # feels log
+├── logs.py          # feels logs
+├── edit.py          # feels edit
+├── delete.py        # feels delete
+├── graph_cmd.py     # feels graph
+├── calendar_cmd.py  # feels calendar
+├── stats_cmd.py     # feels stats
+├── export_cmd.py    # feels export
+├── reminder_cmd.py  # feels reminder
+├── project_cmd.py   # feels project
+├── config_cmd.py    # feels config
+├── onboarding.py    # first-run setup
+└── help_cmd.py      # feels help
+```
 
 ## License
 
-MIT License — see LICENSE file for details.
-
-## Contributing
-
-Contributions welcome! Feel free to open issues or submit PRs.
+MIT
