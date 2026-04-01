@@ -26,7 +26,7 @@ def run_onboarding() -> None:
     console.print()
 
     use_defaults = Confirm.ask(
-        "  [bold]Start with default config?[/bold] [dim](mood and note)[/dim]",
+        "  [bold]Start with default config?[/bold] [dim](mood, asciimoji and note)[/dim]",
         default=True,
     )
 

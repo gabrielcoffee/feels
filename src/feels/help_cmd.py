@@ -62,7 +62,10 @@ def run_help() -> None:
     # Data
     _section("data")
     t = _table()
-    t.add_row("feels dashboard", "monthly mood calendar")
+    t.add_row("feels calendar", "monthly mood calendar")
+    t.add_row("feels calendar --from MM-YYYY", "view a specific month")
+    t.add_row("feels graph", "monthly bar chart")
+    t.add_row("feels graph --from MM-YYYY", "bar chart for a specific month")
     t.add_row("feels stats", "view statistics")
     t.add_row("feels export --format json", "export logs as JSON")
     t.add_row("feels export --format csv", "export logs as CSV")

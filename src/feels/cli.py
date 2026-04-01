@@ -1,6 +1,7 @@
 import argparse
 import os
 import sys
+from datetime import date
 
 from .config import config_exists, load_config, save_config
 from .database import db_exists, ensure_columns, get_stats, get_weekly_mood_by_day, init_db
@@ -12,7 +13,6 @@ def main():
     try:
         _run()
     except KeyboardInterrupt:
-        # Graceful exit on Ctrl+C
         sys.exit(0)
 
 
@@ -37,8 +37,8 @@ def _run():
     subparsers = parser.add_subparsers(dest="command")
 
     add_p = subparsers.add_parser("log")
-    add_p.add_argument("--date", dest="date", metavar="DD-MM-YYYY", help="Log for a specific date")
-    add_p.add_argument("--yesterday", action="store_true", help="Log for yesterday")
+    add_p.add_argument("--date", dest="date", metavar="DD-MM-YYYY")
+    add_p.add_argument("--yesterday", action="store_true")
 
     logs_p = subparsers.add_parser("logs")
     logs_p.add_argument("--all", dest="all", action="store_true")
@@ -59,18 +59,23 @@ def _run():
     project_sub = project_p.add_subparsers(dest="action")
     add_proj = project_sub.add_parser("add")
     add_proj.add_argument("name")
-    list_proj = project_sub.add_parser("list")
+    project_sub.add_parser("list")
     del_proj = project_sub.add_parser("delete")
     del_proj.add_argument("name")
 
     subparsers.add_parser("stats")
 
     export_p = subparsers.add_parser("export")
-    export_p.add_argument("--format", default="json", help="json or csv")
+    export_p.add_argument("--format", default="json")
 
     subparsers.add_parser("reset")
 
-    subparsers.add_parser("dashboard")
+    for cmd in ("calendar", "cal"):
+        cal_p = subparsers.add_parser(cmd)
+        cal_p.add_argument("--from", dest="from_month", metavar="MM or MM-YYYY")
+
+    graph_p = subparsers.add_parser("graph")
+    graph_p.add_argument("--from", dest="from_month", metavar="MM or MM-YYYY")
 
     reminder_p = subparsers.add_parser("reminder")
     reminder_sub = reminder_p.add_subparsers(dest="action")
@@ -109,9 +114,30 @@ def _run():
     elif args.command == "reset":
         from .reset_cmd import run_reset
         run_reset()
-    elif args.command == "dashboard":
-        from .dashboard_cmd import run_dashboard
-        run_dashboard(config)
+    elif args.command in ("calendar", "cal", "graph"):
+        from .calendar_cmd import parse_month_arg
+        from rich.console import Console
+        _console = Console()
+
+        if not config.get("used_dash"):
+            config["used_dash"] = True
+            save_config(config)
+
+        year, month = None, None
+        from_month = getattr(args, "from_month", None)
+        if from_month:
+            result = parse_month_arg(from_month, date.today().year)
+            if result is None:
+                _console.print("\n[red]Error:[/red] Use MM or MM-YYYY (e.g. 03 or 03-2025)\n")
+                return
+            year, month = result
+
+        if args.command == "graph":
+            from .graph_cmd import run_graph
+            run_graph(config, year=year, month=month)
+        else:
+            from .calendar_cmd import run_calendar
+            run_calendar(config, year=year, month=month)
     elif args.command == "reminder":
         from .reminder_cmd import run_reminder
         run_reminder(config, args)

@@ -249,6 +249,17 @@ def show_home(config: dict, stats: dict, weekly_moods: dict = None, logo_seq: in
         )
         rows += [Text(""), fls_tip]
 
+    # calendar tip — shown after 2nd log until user runs calendar/graph for the first time
+    if total >= 2 and not config.get("used_dash"):
+        dash_tip = Text.assemble(
+            ("Tip: run ", "dim"),
+            ("feels calendar", "bold"),
+            (" or ", "dim"),
+            ("feels graph", "bold"),
+            (" to see your monthly mood", "dim"),
+        )
+        rows += [Text(""), dash_tip]
+
     console.print()
     console.print(Panel(Group(*rows), border_style=border_color, padding=(1, 2)))
     console.print()

@@ -50,18 +50,18 @@ def run_edit(config: dict, log_id: int) -> None:
                 updates["stress"] = stress
             console.print()
 
-        # Note
-        note = Prompt.ask("  [bold]Note[/bold]", default=entry.get("note") or "")
-        if note != (entry.get("note") or ""):
-            updates["note"] = note.strip() or None
-        console.print()
-
-        # Asciimoji — last
+        # Asciimoji
         if config.get("asciimoji"):
             face = prompt_asciimoji(console, default_face=entry.get("asciimoji"))
             if face != entry.get("asciimoji"):
                 updates["asciimoji"] = face
             console.print()
+
+        # Note
+        note = Prompt.ask("  [bold]Note[/bold]", default=entry.get("note") or "")
+        if note != (entry.get("note") or ""):
+            updates["note"] = note.strip() or None
+        console.print()
 
         if updates:
             update_log(log_id, updates)

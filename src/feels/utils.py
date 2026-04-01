@@ -169,8 +169,6 @@ def format_entry(entry: dict, config: dict) -> Text:
     # Note
     if entry.get("note"):
         t.append("\n")
-        t.append("", style="bold")
-        t.append("\n")
         t.append(entry["note"])
 
 

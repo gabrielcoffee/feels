@@ -74,16 +74,16 @@ def run_add(config: dict, date: str = None, yesterday: bool = False) -> None:
             entry["stress"] = prompt_score(console, "Stress")
             console.print()
 
+        # Asciimoji
+        if config.get("asciimoji"):
+            entry["asciimoji"] = prompt_asciimoji(console)
+            console.print()
+
         # Note
         note = Prompt.ask("  [bold]Note[/bold] [dim](optional)[/dim]", default="")
         if note.strip():
             entry["note"] = note.strip()
         console.print()
-
-        # Asciimoji — last, separate from mood
-        if config.get("asciimoji"):
-            entry["asciimoji"] = prompt_asciimoji(console)
-            console.print()
 
         entry["timestamp"] = log_dt.isoformat(timespec="seconds")
 
