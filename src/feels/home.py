@@ -1,6 +1,7 @@
 import random
 from datetime import datetime, timedelta
 
+import pyfiglet
 from rich.console import Console, Group
 from rich.panel import Panel
 from rich.table import Table
@@ -11,24 +12,38 @@ from .utils import score_color
 
 console = Console()
 
+_LOGO_FONTS = [
+    "avatar", "big_money-sw", "big", "blocks", "cards",
+    "bulbhead", "chiseled", "crazy", "dancing_font", "fire_font-s",
+    "flower_power", "ghost", "isometric1", "slant_relief", "ascii12",
+    "alligator", "georgia11", "kban",
+]
 
-LOGO = [
-    "██████ ████ ████ █    ████",
-    "█      █    █    █    █   ",
-    "████   ███  ███  █    ████",
-    "█      █    █    █       █",
-    "█      ████ ████ ████ ████",
+_LOGO_COLORS = [
+    "bold bright_blue",
+    "bold bright_cyan",
+    "bold bright_magenta",
+    "bold bright_green",
+    "bold bright_yellow",
 ]
 
 
-def create_logo() -> Text:
-    """Create a vibrant blue pixel art logo for feels."""
+def create_logo(seq: int = None) -> tuple:
+    """Returns (logo Text, border_style str). seq cycles linearly; None uses random."""
+    if seq is not None:
+        font = _LOGO_FONTS[seq % len(_LOGO_FONTS)]
+        color = _LOGO_COLORS[seq % len(_LOGO_COLORS)]
+    else:
+        font = random.choice(_LOGO_FONTS)
+        color = random.choice(_LOGO_COLORS)
+    border_color = color.replace("bold ", "")
+    figlet_text = pyfiglet.figlet_format("feels", font=font)
     logo = Text()
-    for i, line in enumerate(LOGO):
+    for i, line in enumerate(figlet_text.splitlines()):
         if i > 0:
             logo.append("\n")
-        logo.append(line, style="bold bright_blue")
-    return logo
+        logo.append(line, style=color)
+    return logo, border_color
 
 
 def format_streak(streak: int) -> Text:
@@ -150,9 +165,8 @@ def format_mood_matrix(weekly_moods: dict) -> list:
     return rows
 
 
-def show_home(config: dict, stats: dict, weekly_moods: dict = None) -> None:
-    # Use logo instead of text header
-    header = create_logo()
+def show_home(config: dict, stats: dict, weekly_moods: dict = None, logo_seq: int = None) -> None:
+    header, border_color = create_logo(seq=logo_seq)
 
     # Stats line
     total = stats["total"]
@@ -173,10 +187,29 @@ def show_home(config: dict, stats: dict, weekly_moods: dict = None) -> None:
     )
 
     # Nudge
+    has_logs_this_week = bool(weekly_moods)
+    name = config.get("name")
+
     if total == 0:
-        nudge = Text("run feels add to log your first entry", style="dim")
+        if name:
+            nudge = Text.assemble(
+                (f"Welcome, {name} ", ""),
+                ("run ", "dim"),
+                ("feels log", f"bold {border_color}"),
+                (" to log your first entry", "dim"),
+            )
+        else:
+            nudge = Text.assemble(
+                ("run ", "dim"),
+                ("feels log", f"bold {border_color}"),
+                (" to log your first entry", "dim"),
+            )
     elif not stats["logged_today"]:
-        nudge = Text("haven't logged today yet", style="dim")
+        nudge = Text.assemble(
+        ("run ", "dim"),
+        ("feels log", f"bold {border_color}"),
+        (" and log your entry for today", "dim"),
+        )
     else:
         nudge = None
 
@@ -186,8 +219,9 @@ def show_home(config: dict, stats: dict, weekly_moods: dict = None) -> None:
     table.add_column(style="bold")
     table.add_column(style="dim")
 
-    table.add_row("feels add", "log how you're feeling")
+    table.add_row("feels log", "log how you're feeling")
     table.add_row("feels logs", "view recent entries")
+    table.add_row("feels reminder", "set a daily reminder")
     table.add_row("feels config", "update your settings")
     table.add_row("feels help", "see all available commands")
 
@@ -197,8 +231,8 @@ def show_home(config: dict, stats: dict, weekly_moods: dict = None) -> None:
         summary,
     ]
 
-    # Add mood matrix if user has 7+ day streak
-    if streak >= 7 and weekly_moods:
+    # Mood matrix — only when there's at least 1 log this week
+    if weekly_moods:
         rows.append(Text(""))
         rows += format_mood_matrix(weekly_moods)
 
@@ -206,6 +240,15 @@ def show_home(config: dict, stats: dict, weekly_moods: dict = None) -> None:
         rows += [Text(""), nudge]
     rows += [Text(""), commands_label, Text(""), table]
 
+    # fls tip — shown until user has invoked fls at least once
+    if not config.get("used_fls"):
+        fls_tip = Text.assemble(
+            ("Tip: You can also use ", "dim"),
+            ("fls", "bold"),
+            (" instead of feels!", "dim"),
+        )
+        rows += [Text(""), fls_tip]
+
     console.print()
-    console.print(Panel(Group(*rows), border_style="bright_black", padding=(1, 4)))
+    console.print(Panel(Group(*rows), border_style=border_color, padding=(1, 2)))
     console.print()

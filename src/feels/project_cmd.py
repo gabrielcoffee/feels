@@ -1,6 +1,7 @@
 from rich.console import Console
 
 from .config import save_config
+from .utils import assign_project_color
 
 console = Console()
 
@@ -24,6 +25,7 @@ def run_project(config: dict, args) -> None:
         else:
             projects.append(name)
             config["active_projects"] = projects
+            assign_project_color(name, config)
             save_config(config)
             console.print(f"[green]✓[/green] Added project '{name}'")
 

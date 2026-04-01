@@ -19,10 +19,9 @@ def run_config(config: dict) -> None:
     table.add_row("mood", "[green]on[/green]")
     table.add_row("focus", "[green]on[/green]" if config.get("focus") else "[dim]off[/dim]")
     table.add_row("stress", "[green]on[/green]" if config.get("stress") else "[dim]off[/dim]")
-    table.add_row("", "")  # Blank line
     table.add_row("projects", "[green]on[/green]" if config.get("projects") else "[dim]off[/dim]")
-    table.add_row("tags", "[green]on[/green]" if config.get("tags", True) else "[dim]off[/dim]")
     table.add_row("notes", "[green]on[/green]" if config.get("note", True) else "[dim]off[/dim]")
+    table.add_row("asciimoji", "[green]on[/green]" if config.get("asciimoji") else "[dim]off[/dim]")
 
     console.print("[bold]Current config:[/bold]")
     console.print(table)
@@ -33,14 +32,14 @@ def run_config(config: dict) -> None:
         focus = Confirm.ask("  Enable focus score?", default=config.get("focus", False))
         stress = Confirm.ask("  Enable stress score?", default=config.get("stress", False))
         projects = Confirm.ask("  Enable projects?", default=config.get("projects", False))
-        tags = Confirm.ask("  Enable tags?", default=config.get("tags", True))
         note = Confirm.ask("  Enable notes?", default=config.get("note", True))
+        asciimoji = Confirm.ask("  Enable asciimoji?", default=config.get("asciimoji", False))
 
         config["focus"] = focus
         config["stress"] = stress
         config["projects"] = projects
-        config["tags"] = tags
         config["note"] = note
+        config["asciimoji"] = asciimoji
 
         if projects and "active_projects" not in config:
             config["active_projects"] = []

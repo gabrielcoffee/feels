@@ -1,33 +1,32 @@
-from rich.console import Console
+from rich.console import Console, Group
 from rich.panel import Panel
-from rich.prompt import Confirm
+from rich.prompt import Confirm, Prompt
 from rich.table import Table
 from rich.text import Text
 from rich import box
 
 from .config import save_config
+from .home import create_logo
 
 console = Console()
 
 
 def run_onboarding() -> None:
-    welcome = Text.assemble(
-        ("Welcome to ", "bold"),
-        ("feels", "bold bright_cyan"),
-        "\n",
-        ("A mood tracker for developers. Runs entirely in your terminal.", "dim"),
-    )
+    logo, border_color = create_logo()
 
     console.print()
-    console.print(Panel.fit(
-        welcome,
-        border_style="bright_black",
-        padding=(1, 4),
+    console.print(Panel(
+        Group(logo, Text(""), Text("A mood tracker and journal for developers. Runs entirely in your terminal. \n\nLet's start your journey!", style="dim")), 
+        border_style=border_color,
+        padding=(1, 2),
     ))
     console.print()
 
+    name = Prompt.ask("  [bold]What's your name?[/bold] [dim](optional)[/dim]", default="")
+    console.print()
+
     use_defaults = Confirm.ask(
-        "[bold]Start with default config?[/bold] [dim](mood score, tags and note)[/dim]",
+        "  [bold]Start with default config?[/bold] [dim](mood and note)[/dim]",
         default=True,
     )
 
@@ -36,18 +35,24 @@ def run_onboarding() -> None:
             "focus": False,
             "stress": False,
             "projects": False,
+            "asciimoji": True,
         }
     else:
         console.print()
         focus = Confirm.ask("  Add [bold]Focus[/bold] score? [dim](0–5)[/dim]", default=False)
         stress = Confirm.ask("  Add [bold]Stress[/bold] score? [dim](0–5)[/dim]", default=False)
         projects = Confirm.ask("  Enable [bold]projects[/bold]? [dim](separate logs by project)[/dim]", default=False)
+        asciimoji = Confirm.ask("  Enable [bold]asciimoji[/bold]? [dim](pick mood from ASCII faces)[/dim]", default=True)
 
         config = {
             "focus": focus,
             "stress": stress,
             "projects": projects,
+            "asciimoji": asciimoji,
         }
+
+    if name.strip():
+        config["name"] = name.strip()
 
     _show_summary(config)
 
@@ -64,12 +69,12 @@ def _show_summary(config: dict) -> None:
     table.add_column(style="dim")
     table.add_column()
 
-    table.add_row("mood score", "[green]always on[/green]")
-    table.add_row("focus score", "[green]on[/green]" if config["focus"] else "[dim]off[/dim]")
-    table.add_row("stress score", "[green]on[/green]" if config["stress"] else "[dim]off[/dim]")
+    table.add_row("mood", "[green]always on[/green]")
+    table.add_row("focus", "[green]on[/green]" if config["focus"] else "[dim]off[/dim]")
+    table.add_row("stress", "[green]on[/green]" if config["stress"] else "[dim]off[/dim]")
     table.add_row("projects", "[green]on[/green]" if config["projects"] else "[dim]off[/dim]")
-    table.add_row("tags", "[green]always on[/green]")
     table.add_row("notes", "[green]always on[/green]")
+    table.add_row("asciimoji", "[green]on[/green]" if config.get("asciimoji") else "[dim]off[/dim]")
 
     console.print("[bold]Your config:[/bold]")
     console.print(table)

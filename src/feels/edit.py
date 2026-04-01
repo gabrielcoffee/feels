@@ -2,7 +2,7 @@ from rich.console import Console
 from rich.prompt import Prompt
 
 from .database import get_log, update_log
-from .utils import format_entry, prompt_score
+from .utils import format_entry, prompt_asciimoji, prompt_score
 
 console = Console()
 
@@ -23,35 +23,46 @@ def run_edit(config: dict, log_id: int) -> None:
     updates = {}
 
     try:
+        # Mood — first
+        mood = prompt_score(console, "Mood", default=entry["mood"])
+        if mood != entry["mood"]:
+            updates["mood"] = mood
+        console.print()
+
+        # Project
         if config.get("projects") and entry.get("project") is not None:
             val = Prompt.ask("  [bold]Project[/bold]", default=entry.get("project") or "")
             if val != (entry.get("project") or ""):
                 updates["project"] = val.strip() or None
+            console.print()
 
-        # Mood (always present) - use validated prompt
-        mood = prompt_score(console, "Mood", default=entry["mood"])
-        if mood != entry["mood"]:
-            updates["mood"] = mood
-
+        # Focus
         if config.get("focus") and entry.get("focus") is not None:
             focus = prompt_score(console, "Focus", default=entry.get("focus"))
             if focus != entry.get("focus"):
                 updates["focus"] = focus
+            console.print()
 
+        # Stress
         if config.get("stress") and entry.get("stress") is not None:
             stress = prompt_score(console, "Stress", default=entry.get("stress"))
             if stress != entry.get("stress"):
                 updates["stress"] = stress
+            console.print()
 
-        tags = Prompt.ask("  [bold]Tags[/bold]", default=entry.get("tags") or "")
-        if tags != (entry.get("tags") or ""):
-            updates["tags"] = tags.strip() or None
-
+        # Note
         note = Prompt.ask("  [bold]Note[/bold]", default=entry.get("note") or "")
         if note != (entry.get("note") or ""):
             updates["note"] = note.strip() or None
-
         console.print()
+
+        # Asciimoji — last
+        if config.get("asciimoji"):
+            face = prompt_asciimoji(console, default_face=entry.get("asciimoji"))
+            if face != entry.get("asciimoji"):
+                updates["asciimoji"] = face
+            console.print()
+
         if updates:
             update_log(log_id, updates)
             console.print(f"[green]✓[/green] Entry [dim]#{log_id}[/dim] updated.")

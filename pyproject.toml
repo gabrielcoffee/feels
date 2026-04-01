@@ -27,10 +27,17 @@ classifiers = [
 ]
 dependencies = [
     "rich>=13.0",
+    "pyfiglet>=1.0",
 ]
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+feels = ["bin/terminal-notifier.app/Contents/MacOS/terminal-notifier",
+         "bin/terminal-notifier.app/Contents/Info.plist",
+         "bin/terminal-notifier.app/Contents/PkgInfo",
+         "bin/terminal-notifier.app/Contents/Resources/**/*"]
 
 [project.urls]
 "Homepage" = "https://github.com/gabrielpereira/feels"

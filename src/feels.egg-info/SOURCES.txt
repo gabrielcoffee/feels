@@ -7,6 +7,7 @@ src/feels/add.py
 src/feels/cli.py
 src/feels/config.py
 src/feels/config_cmd.py
+src/feels/dashboard_cmd.py
 src/feels/database.py
 src/feels/delete.py
 src/feels/edit.py
