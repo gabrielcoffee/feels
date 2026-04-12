@@ -5,7 +5,7 @@ from rich.panel import Panel
 from rich.rule import Rule
 
 from .database import get_logs
-from .utils import format_entry, get_project_color, score_color
+from .utils import format_entry, score_color
 from .validation import validate_date, handle_invalid_date
 
 console = Console()
@@ -54,7 +54,7 @@ def run_logs(config: dict, args) -> None:
             console.print()
 
         proj = entry.get("project")
-        border = get_project_color(proj, config) if proj else score_color(entry["mood"])
+        border = score_color(entry["mood"])
         console.print(Panel.fit(
             format_entry(entry, config),
             border_style=border,

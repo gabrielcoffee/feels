@@ -159,7 +159,7 @@ def format_mood_matrix(weekly_moods: dict) -> list:
             color = score_color(score)
             num_row.append(f" {score}", style=f"dim {color}")
         else:
-            num_row.append("  ", style="dim")
+            num_row.append(" ×", style="dim")
     rows.append(num_row)
 
     return rows

@@ -79,5 +79,5 @@ def _render_graph(year: int, month: int, today: date, scores: dict, field: str, 
         if score is not None:
             num_row.append(f" {score}", style=f"dim {color_fn(score)}")
         else:
-            num_row.append("  ", style="dim")
+            num_row.append(" ×", style="dim")
     console.print(num_row)
