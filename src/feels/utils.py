@@ -1,5 +1,7 @@
+import math
 import random
 from datetime import datetime
+from itertools import zip_longest
 from typing import Optional
 
 from rich.console import Console
@@ -12,29 +14,47 @@ SCORE_COLORS = ["bright_red", "red", "orange1", "bright_yellow", "bright_green",
 REVERSE_COLORS = ["blue", "bright_green", "bright_yellow", "orange1", "red", "bright_red"]
 
 ASCIIMOJIS = [
-    (1,  "cry",     "(╥﹏╥)"),
-    (2,  "sad",     "(︶︹︶)"),
-    (3,  "afraid",  "(ㆆ _ ㆆ)"),
-    (4,  "angry",   "•`_´•"),
-    (5,  "tired",   "(=____=)"),
-    (6,  "bored",   "(-_-)"),
-    (7,  "shy",     "=^_^="),
-    (8,  "awkward", "•͡˘㇁•͡˘"),
-    (9,  "happy",   "(´• ω •`)"),
-    (10, "love",    "♥‿♥"),
+    (1,  "love",         "♥‿♥"),
+    (2,  "sending love", "(づ๑•ᴗ•๑)づ♡"),
+    (3,  "xoxo",         "( ˘ ³˘)♥"),
+    (4,  "yay!",         "\\(^-^)/"),
+    (5,  "happy",        "ᕕ( ᐛ )ᕗ"),
+    (6,  "shy",          "(*ᴗ͈ˬᴗ͈)ꕤ*.ﾟ"),
+    (7,  "i mean...",    "¯\\_(ツ)_/¯"),
+    (8,  "duckface",     "(・3・)"),
+    (9,  "awkward",      "•͡˘㇁•͡˘"),
+    (10, "endure it",    "(҂ ◡ _ ◡ ) ᕤ"),
+    (11, "cmon",         "(╯°□°）╯︵ ┻━┻"),
+    (12, "oh no",        "ಠ_ಠ"),
+    (13, "sad",          "(︶︹︶)"),
+    (14, "crying",       "(╥﹏╥)"),
+    (15, "hurt",         "(ಥ﹏ಥ)"),
+    (16, "going insane", "ʘ ‿ ʘ"),
+    (17, "mad",          "ᕙ( ᗒᗣᗕ )ᕗ"),
+    (18, "screw you",    "╭∩╮( •̀_•́ )╭∩╮"),
+    (19, "furious",      "(╬ಠ益ಠ)"),
 ]
 
 _ASCIIMOJI_COLOR = {
-    "cry":     "blue",
-    "sad":     "blue",
-    "afraid":  "bright_red",
-    "angry":   "bright_red",
-    "tired":   "orange1",
-    "bored":   "orange1",
-    "shy":     "bright_yellow",
-    "awkward": "bright_yellow",
-    "happy":   "bright_green",
-    "love":    "bright_magenta",
+    "love":         "bright_magenta",
+    "sending love": "bright_magenta",
+    "xoxo":         "bright_magenta",
+    "yay!":         "bright_green",
+    "happy":        "bright_green",
+    "shy":          "bright_yellow",
+    "i mean...":    "white",
+    "duckface":     "white",
+    "awkward":      "bright_yellow",
+    "endure it":    "orange1",
+    "cmon":         "orange1",
+    "oh no":        "bright_red",
+    "sad":          "blue",
+    "crying":       "blue",
+    "hurt":         "blue",
+    "going insane": "bright_red",
+    "mad":          "bright_red",
+    "screw you":    "bright_red",
+    "furious":      "bright_red",
 }
 
 PROJECT_COLORS = [
@@ -69,25 +89,28 @@ def prompt_asciimoji(console: Console, default_face: Optional[str] = None) -> st
     console.print("  [bold]Asciimoji[/bold] [dim](how are you feeling?)[/dim]")
     console.print()
 
-    left = ASCIIMOJIS[:5]
-    right = ASCIIMOJIS[5:]
+    mid = math.ceil(len(ASCIIMOJIS) / 2)
+    left = ASCIIMOJIS[:mid]
+    right = ASCIIMOJIS[mid:]
 
     grid = Table(box=None, show_header=False, padding=(0, 1), pad_edge=False)
     grid.add_column(style="dim", justify="right", width=2, no_wrap=True)
-    grid.add_column(width=8, no_wrap=True)
+    grid.add_column(width=12, no_wrap=True)
     grid.add_column(width=20, no_wrap=True)
     grid.add_column(style="dim", justify="right", width=2, no_wrap=True)
-    grid.add_column(width=8, no_wrap=True)
+    grid.add_column(width=12, no_wrap=True)
     grid.add_column(no_wrap=True)
 
-    for i, ((ln, lname, lface), (rn, rname, rface)) in enumerate(zip(left, right)):
+    for i, (l_item, r_item) in enumerate(zip_longest(left, right)):
+        ln, lname, lface = l_item
         lcol = _ASCIIMOJI_COLOR.get(lname, "white")
-        rcol = _ASCIIMOJI_COLOR.get(rname, "white")
-        grid.add_row(
-            str(ln), lname, Text(lface, style=lcol),
-            str(rn), rname, Text(rface, style=rcol),
-        )
-        if i < 4:
+        if r_item:
+            rn, rname, rface = r_item
+            rcol = _ASCIIMOJI_COLOR.get(rname, "white")
+            grid.add_row(str(ln), lname, Text(lface, style=lcol), str(rn), rname, Text(rface, style=rcol))
+        else:
+            grid.add_row(str(ln), lname, Text(lface, style=lcol), "", "", Text(""))
+        if i < len(left) - 1:
             grid.add_row("", "", Text(""), "", "", Text(""))
 
     console.print(grid)
@@ -100,11 +123,12 @@ def prompt_asciimoji(console: Console, default_face: Optional[str] = None) -> st
                 default_str = str(num)
                 break
 
+    total = len(ASCIIMOJIS)
     while True:
-        raw = Prompt.ask("  [dim]pick 1–10[/dim]", default=default_str)
-        if raw is not None and str(raw).isdigit() and 1 <= int(raw) <= 10:
+        raw = Prompt.ask(f"  [dim]pick 1–{total}[/dim]", default=default_str)
+        if raw is not None and str(raw).isdigit() and 1 <= int(raw) <= total:
             return ASCIIMOJIS[int(raw) - 1][2]
-        console.print("  [red]Enter a number between 1 and 10.[/red]\n")
+        console.print(f"  [red]Enter a number between 1 and {total}.[/red]\n")
 
 
 def prompt_score(console: Console, label: str, default: Optional[int] = None) -> int:
