@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "feels"
-version = "1.2.3"
+version = "1.2.4"
 description = "A local-first CLI mood tracker for developers"
 authors = [{name = "Gabriel Fernandes Pereira", email = "gfernandespereira18@gmail.com"}]
 license = {text = "MIT"}
