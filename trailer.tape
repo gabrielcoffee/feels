@@ -1,53 +1,55 @@
-Output trailer.mp4
+# Renders the README demo: vhs trailer.tape
+Output .github/assets/demo.gif
 
-Set FontSize 13
-Set Width 110
-Set Height 44
+Set FontSize 15
+Set Width 1400
+Set Height 1120
 Set Theme "Catppuccin Mocha"
-Set FontFamily "JetBrains Mono"
-Set TypingSpeed 90ms
-Set Padding 20
-Env PATH "/Library/Frameworks/Python.framework/Versions/3.13/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
+Set FontFamily "Menlo"
+Set TypingSpeed 70ms
+Set Padding 24
 
-# home screen
-Type "feels"
-Enter
-Sleep 4s
-
-# log a new entry
+# log today's entry
 Type "feels log"
 Enter
-Sleep 1.2s
+Sleep 1s
 Type "4"
 Enter
-Sleep 1s
-Type "9"
+Sleep 700ms
+Type "4"
+Enter
+Sleep 900ms
+Type "2"
 Enter
 Sleep 600ms
 Type "shipped the dashboard feature today"
 Enter
-Sleep 3s
+Sleep 2s
+
+# home screen with the streak
+Type "clear"
+Enter
+Type "feels"
+Enter
+Sleep 3.5s
 
 # recent logs
 Type "clear"
 Enter
-Sleep 300ms
 Type "feels logs"
 Enter
-Sleep 4s
+Sleep 3s
 
 # monthly graph
 Type "clear"
 Enter
-Sleep 300ms
 Type "feels graph"
 Enter
-Sleep 4s
+Sleep 3.5s
 
 # monthly calendar
 Type "clear"
 Enter
-Sleep 300ms
 Type "feels calendar"
 Enter
-Sleep 4s
+Sleep 3.5s

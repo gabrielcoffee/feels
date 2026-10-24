@@ -1,8 +1,27 @@
 # feels
 
+[![PyPI](https://img.shields.io/pypi/v/feels)](https://pypi.org/project/feels/)
+[![Python](https://img.shields.io/pypi/pyversions/feels)](https://pypi.org/project/feels/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
 A mood tracker for developers. Runs entirely in your terminal.
 
 **All data stays on your machine.** No cloud. No accounts. No tracking.
+
+![feels demo: logging an entry, the home screen, logs, graph and calendar](https://raw.githubusercontent.com/gabrielcoffee/feels/main/.github/assets/demo.gif)
+
+## Why
+
+Most mood trackers are phone apps that want an account and your data. `feels` lives where developers already spend the day, the terminal. Logging takes ten seconds, a daily reminder opens it for you, and the graphs make a bad stretch obvious before it becomes a bad month.
+
+## Highlights
+
+- **Ten-second logging.** Mood, optional focus and stress scores, an ASCII emoji and a note.
+- **Graphs and a calendar in the terminal**, colored by score, built with [Rich](https://github.com/Textualize/rich).
+- **Streaks and a weekly mood chart** on the home screen.
+- **Daily reminders** that open your terminal at a set time. It detects Ghostty, iTerm2 and Terminal.app.
+- **Local-first.** One SQLite file and one JSON config in `~/.feels`. Export to JSON or CSV any time.
+- **Published on PyPI**, with releases built and uploaded by GitHub Actions on every push to `main`.
 
 ## Install
 
@@ -130,6 +149,15 @@ src/feels/
 ├── onboarding.py    # first-run setup
 └── help_cmd.py      # feels help
 ```
+
+## Development
+
+```bash
+pip install -e ".[dev]"
+pytest
+```
+
+The demo GIF is recorded with [VHS](https://github.com/charmbracelet/vhs): `vhs trailer.tape`.
 
 ## License
 

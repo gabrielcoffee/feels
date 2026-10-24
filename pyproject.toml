@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "feels"
 version = "1.2.3"
 description = "A local-first CLI mood tracker for developers"
-authors = [{name = "Gabriel Pereira", email = "gabriel@example.com"}]
+authors = [{name = "Gabriel Fernandes Pereira", email = "gfernandespereira18@gmail.com"}]
 license = {text = "MIT"}
 readme = "README.md"
 requires-python = ">=3.10"
@@ -40,10 +40,10 @@ feels = ["bin/terminal-notifier.app/Contents/MacOS/terminal-notifier",
          "bin/terminal-notifier.app/Contents/Resources/**/*"]
 
 [project.urls]
-"Homepage" = "https://github.com/gabrielpereira/feels"
-"Bug Tracker" = "https://github.com/gabrielpereira/feels/issues"
-"Documentation" = "https://github.com/gabrielpereira/feels#readme"
-"Source Code" = "https://github.com/gabrielpereira/feels"
+"Homepage" = "https://github.com/gabrielcoffee/feels"
+"Bug Tracker" = "https://github.com/gabrielcoffee/feels/issues"
+"Documentation" = "https://github.com/gabrielcoffee/feels#readme"
+"Source Code" = "https://github.com/gabrielcoffee/feels"
 
 [project.optional-dependencies]
 test = ["pytest>=7.0", "pytest-cov>=4.0"]
